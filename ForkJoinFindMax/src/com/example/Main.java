@@ -1,7 +1,7 @@
 package com.example;
 
 import java.util.concurrent.ForkJoinPool;
-import java.util.concurrent.ThreadLocalRandom;
+//import java.util.concurrent.ThreadLocalRandom;
 
 public class Main {
 
@@ -10,15 +10,15 @@ public class Main {
     public static void main(String[] args) {
         int[] data = new int[1024 * 1024 * 128]; //512MB
 
+        /* 
         for (int i = 0; i < data.length; i++) {
             /*
-             * Se usa ThreadLocalRandom en lugar de Math.Random() porque Math.Random() No se escala 
-             * cuando se ejecuta simultaneamente con varios threads y eliminaría cualquier ventaja de aplicar
-             * el marco Fork-join.
+             Se usa ThreadLocalRandom en lugar de Math.Random() porque Math.Random() No se escala 
+             cuando se ejecuta simultaneamente con varios threads y eliminaría cualquier ventaja de aplicar
+             el marco Fork-join.
              */
-            data[i] = ThreadLocalRandom.current().nextInt();  // * Generador de numeros aleatorios dentro de la matriz data
-        }
-
+            // data[i] = ThreadLocalRandom.current().nextInt();  //Generador de numeros aleatorios dentro de la matriz data
+        // }
 
         // * Forma secuencial de encontrar el max_value
 //        int max = Integer.MIN_VALUE;
@@ -29,14 +29,18 @@ public class Main {
 //        }
 //        System.out.println("Max value found:" + max);
         
-        ForkJoinPool pool = new ForkJoinPool();     // * Invoca una tarea de tipo forkJoinTask.
-        FindMaxTask task = new FindMaxTask(data, 0, data.length-1, data.length/16);  // *Invoca clase FindMaxTask
-        Integer result = pool.invoke(task);
-        System.out.println("Max value found:" + result);
-        
+        //ForkJoinPool pool = new ForkJoinPool();     // * Invoca una tarea de tipo forkJoinTask.
+        // * Nuevo elemento RandomArrayAction
+        RandomArrayAction arraction = new RandomArrayAction(data, 0, data.length-1, data.length/16);
+        ForkJoinPool.commonPool().invoke(arraction);  // * Llamar elmento forkJoin para la ejecucion de la subtarea
+        System.out.println("Max valor encontrado en la matriz: " + arraction);
+        System.out.println("Tiempo tomado: " + System.currentTimeMillis() + " milisegundos.");
+
+        //FindMaxTask task = new FindMaxTask(data, 0, data.length-1, data.length/16);  // *Invoca clase FindMaxTask
+        //Integer result = pool.invoke(task);
+        //System.out.println("Max Value FindMaxTask: " + result);
     }
 }
-
 
 /*
  * Para poder invocar múltiples subtareas en paralelo de forma recursiva, invocará a una tarea
