@@ -29,12 +29,18 @@ public class FindMaxTask extends RecursiveTask<Integer> {
 
         if (end - start < threshold) {
             int max = Integer.MIN_VALUE;
+            // * i = 0, n = numero que hay en la matriz[i], si n > max (MIN_VALUE), max = valor de n.
+            /* 
+             * Con este for se determinará cuál es el número máximo después de partir la matriz myArray en 
+             * dos partes iguales.
+             */
             for (int i = start; i <= end; i++) {
                 int n = myArray[i];
                 if (n > max) {
                     max = n;
                 }
             }
+            // * Cuando sale del ciclo for, se retornará el número máximo que hay dentro de la matriz
             return max;
         } else {
             // * Divide el tamaño de la matriz en dos para distribuirlo en dos procesos u hilos.
