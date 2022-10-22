@@ -37,6 +37,7 @@ public class FindMaxTask extends RecursiveTask<Integer> {
             }
             return max;
         } else {
+            // * Divide el tamaño de la matriz en dos para distribuirlo en dos procesos u hilos.
             int midway = (end - start) / 2 + start; // * Tecnica divide y vencerás para dividirlo en dos procesos Fork.
             // * Llamando nuevamente la clase FindMaxTask pero esta vez con la primera mitad de la matriz.
             FindMaxTask a1 = new FindMaxTask(myArray, start, midway, threshold);
