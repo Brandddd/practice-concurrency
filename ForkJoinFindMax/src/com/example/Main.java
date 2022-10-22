@@ -11,9 +11,16 @@ public class Main {
         int[] data = new int[1024 * 1024 * 128]; //512MB
 
         for (int i = 0; i < data.length; i++) {
+            /*
+             * Se usa ThreadLocalRandom en lugar de Math.Random() porque Math.Random() No se escala 
+             * cuando se ejecuta simultaneamente con varios threads y eliminaría cualquier ventaja de aplicar
+             * el marco Fork-join.
+             */
             data[i] = ThreadLocalRandom.current().nextInt();  // * Generador de numeros aleatorios dentro de la matriz data
         }
 
+
+        // * Forma secuencial de encontrar el max_value
 //        int max = Integer.MIN_VALUE;
 //        for (int value : data) {
 //            if (value > max) {
