@@ -22,11 +22,7 @@ public class FindMaxTask extends RecursiveTask<Integer> {
      */
 
     protected Integer compute() {
-
-        System.out.println("start: " + start);
-        System.out.println("end: " + end);
-        System.out.println("threshold: " + threshold);
-
+        
         if (end - start < threshold) {
             int max = Integer.MIN_VALUE;
             // * i = 0, n = numero que hay en la matriz[i], si n > max (MIN_VALUE), max = valor de n.
