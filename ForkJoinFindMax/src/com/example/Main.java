@@ -29,10 +29,10 @@ public class Main {
 //        }
 //        System.out.println("Max value found:" + max);
         
-        //ForkJoinPool pool = new ForkJoinPool();     // * Invoca una tarea de tipo forkJoinTask.
+        ForkJoinPool pool = new ForkJoinPool();     // * Invoca una tarea de tipo forkJoinTask.
         // * Nuevo elemento RandomArrayAction
         RandomArrayAction arraction = new RandomArrayAction(data, 0, data.length-1, data.length/16);
-        ForkJoinPool.commonPool().invoke(arraction);  // * Llamar elmento forkJoin para la ejecucion de la subtarea
+        pool.invoke(arraction);  // * Llamar elemento forkJoin para la ejecucion de la subtarea
         System.out.println("Max valor encontrado en la matriz: " + arraction);
         System.out.println("Tiempo tomado: " + System.currentTimeMillis() + " milisegundos.");
 
