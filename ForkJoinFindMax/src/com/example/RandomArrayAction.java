@@ -57,7 +57,7 @@ public class RandomArrayAction extends RecursiveAction {
             // Cuando es mayor al umbral se debe encontrar un punto intermedio como se
             // verá
             // A continuación
-            int midway = (end - start) / 2;
+            int midway = (end - start) / 2 + start;
             // Nueva instancia para cada una de las secciones que procesar.
             RandomArrayAction r1 = new RandomArrayAction(myArray, start, midway, threshold);
             // Nueva instancia 2 para la segunda parte de la matriz a procesar.
