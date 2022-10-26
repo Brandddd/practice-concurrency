@@ -1,25 +1,36 @@
 package com.example.client;
 
-import java.util.concurrent.Callable;
 import java.net.Socket;
+import java.util.Scanner;
+import java.util.concurrent.Callable;
 
-public class NetworkClientCallable implements Callable<RequestResponse>{
+public class NetworkClientCallable implements Callable<RequestResponse> {
 
-    public RequestResponse reference;   // * Tipo y nombre del campo.
-    
-    public NetworkClientCallable(RequestResponse reference) {    // * En el constructor se le envía el tipo de referencia y la referencia 
-        this.reference = reference;
+    RequestResponse referencia ;
+    public NetworkClientCallable(RequestResponse referencia) {
+        this.referencia = referencia;
     }
 
+    @Override
     public RequestResponse call() throws Exception {
+        try {
+            Socket sock = new Socket(this.referencia.host,this.referencia.port);
+            Scanner scanner = new Scanner(sock.getInputStream());
+            this.referencia.response = scanner.next();
+            sock.close();
+            scanner.close();
+            return this.referencia;
+        } catch (Exception ex) {
+            System.out.println("Error en NetworkClientCallable " + ex);
+        }
+        return this.referencia;
+    }
 
-        Socket socket = new Socket(this.reference.host, this.reference.port);  // * Se crea el socket con la ref de RequestResponse
-        System.out.println("Hola soy un cliente en el socket: ");
-        System.out.println(socket);
+    public RequestResponse getReferencia() {
+        return referencia;
+    }
 
-        socket.close();
-
-        return null;
-
+    public void setReferencia(RequestResponse referencia) {
+        this.referencia = referencia;
     }
 }
